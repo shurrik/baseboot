@@ -9,7 +9,7 @@
   <!-- Core Project Information                                             -->
   <!-- ==================================================================== -->
 
-  <groupId>com.crv</groupId>
+  <groupId>com.shurrik</groupId>
   <artifactId>baseboot</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>

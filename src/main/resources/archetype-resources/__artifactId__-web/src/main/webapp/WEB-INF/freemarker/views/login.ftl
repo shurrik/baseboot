@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>华润万家IT内部技术支持平台</title>
+<title></title>
 <!-- bootstrap - css -->
 <link href="${wwwroot}/resources/BJUI/themes/css/bootstrap.css" rel="stylesheet">
 <!-- core - css -->
@@ -225,9 +225,7 @@ a:link {color: #285e8e;}
     		</form>
         </div>
 	</div>
-	<#--
-	<div class="bottom">Copyright &copy; 2015  <a href="#">华润万家CI - 系统登陆</a></div>
-	-->
+
 </div>
 </body>
 </html>

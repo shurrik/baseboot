@@ -6,7 +6,7 @@
   <!--</requiredProperties>-->
     <requiredProperties>
         <requiredProperty key="corp">
-            <defaultValue>crv</defaultValue>
+            <defaultValue>shurrik</defaultValue>
         </requiredProperty>
         <requiredProperty key="domain">
             <defaultValue>com</defaultValue>
