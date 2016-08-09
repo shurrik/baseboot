@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+	default-lazy-init="true">
+
+	<!-- 异步调度 -->
+	<task:annotation-driven executor="executor" scheduler="scheduler" mode="proxy" proxy-target-class="true"/>
+    <task:executor id="executor" pool-size="5" />
+    <task:scheduler id="scheduler" pool-size="10" />
+    
+    
+<!-- 	<bean id="jobTest" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	  <property name="targetObject" ref="testTask" />
+	  <property name="targetMethod" value="execute" />
+	</bean>
+	<bean id="TriggerExecTest" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	    see the example of method invoking job above
+	    <property name="jobDetail" ref="jobTest" />
+	    每天凌晨3:15执行
+	    <property name="cronExpression">
+        	<value>0 30 1 * * ?</value>
+			<value>0 * * * * ?</value>        	
+    	</property>
+	</bean> -->
+	
+<!--	<bean id="jobRemindRecForm" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	  <property name="targetObject" ref="remindRecFormTask" />
+	  <property name="targetMethod" value="execute" />
+	</bean>
+	<bean id="TriggerExecRemindRecForm" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	    &lt;!&ndash; see the example of method invoking job above &ndash;&gt;
+	    <property name="jobDetail" ref="jobRemindRecForm" />
+	    <property name="cronExpression">
+			<value>0 */30 * * * ?</value>
+			&lt;!&ndash; <value>0 * * * * ?</value> &ndash;&gt;
+    	</property>
+	</bean>	-->
+
+	<!--<bean id="jobPlanRun" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	  <property name="targetObject" ref="planRunTask" />
+	  <property name="targetMethod" value="execute" />
+	</bean>
+	<bean id="TriggerExecPlanRun" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	    <property name="jobDetail" ref="jobPlanRun" />
+	    <property name="cronExpression">
+			<value>5 * * * * ?</value>
+    	</property>
+	</bean>
+
+	<bean id="jobJobStatus" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="jobStatusTask" />
+		<property name="targetMethod" value="execute" />
+	</bean>
+	<bean id="TriggerExecJobStatus" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="jobJobStatus" />
+		<property name="cronExpression">
+			<value>30 */5 * * * ?</value>
+		</property>
+	</bean>
+
+	&lt;!&ndash;每小时十分时将小于十二小时状态为执行中的任务改成失败&ndash;&gt;
+	<bean id="UpdateFail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="updateFailTask" />
+		<property name="targetMethod" value="execute" />
+	</bean>
+	<bean id="UpdateFailVary" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="UpdateFail" />
+		<property name="cronExpression">
+			<value>0 10 * * * ?</value>
+		</property>
+	</bean>
+
+	&lt;!&ndash;统计本月里每天的所执行的任务&ndash;&gt;
+	<bean id="JobReportDateTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="jobReportDateTask" />
+		<property name="targetMethod" value="execute" />
+	</bean>
+	<bean id="JobReportDate" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="JobReportDateTask" />
+		<property name="cronExpression">
+			<value>0 0 02 * * ?</value>
+		</property>
+	</bean>
+
+	<bean id="jobMonitor" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="monitorTask" />
+		<property name="targetMethod" value="execute" />
+	</bean>
+	<bean id="TriggerExecMonitor" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="jobMonitor" />
+		<property name="cronExpression">
+			<value>*/5 * * * * ?</value>
+		</property>
+	</bean>-->
+
+	<!--
+	 调度器
+	 -->
+	<!--<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="TriggerExecPlanRun"/>
+				<ref bean="TriggerExecJobStatus"/>
+				<ref bean="UpdateFailVary"/>
+				<ref bean="JobReportDate"/>
+				<ref bean="TriggerExecMonitor"/>
+			</list>
+		</property>
+	</bean>-->
+
+</beans>

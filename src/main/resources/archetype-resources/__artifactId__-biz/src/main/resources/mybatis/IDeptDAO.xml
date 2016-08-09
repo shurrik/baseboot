@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="${groupId}.${artifactId}.dao.IDeptDAO">
+
+    <sql id="Base_Column_List">
+      id,
+	  name name,
+	  pid pid,
+	  pname pname,
+	  dep_order depOrder,
+	  create_date createDate,
+	  update_date updateDate
+    </sql>
+    
+    <sql id="Query_condition">
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+              <if test="condition.name!=null">
+			  	AND name Like '%${condition.name}%'
+			  </if>
+              <if test="condition.pid!=null">
+			  	AND pid Like '%${condition.pid}%'
+			  </if>
+              <if test="condition.pname!=null">
+			  	AND pname Like '%${condition.pname}%'
+			  </if>
+              <if test="condition.depOrder!=null">
+			  	AND dep_order Like '%${condition.depOrder}%'
+			  </if>
+              <if test="condition.createDate!=null">
+			  	AND create_date Like '%${condition.createDate}%'
+			  </if>
+              <if test="condition.updateDate!=null">
+			  	AND update_date Like '%${condition.updateDate}%'
+			  </if>
+        </trim>        
+    </sql>
+    <insert id="insert" parameterType="Dept">
+        INSERT INTO t_sys_dept (
+	        id,
+		    name,
+		    pid,
+		    pname,
+		    dep_order,
+		    create_date,
+		    update_date
+        ) VALUES (
+         	#{ id},
+       		#{ name},
+       		#{ pid},
+       		#{ pname},
+       		#{ depOrder},
+       		sysdate(),
+       		sysdate()
+        )
+    </insert>
+
+    <!-- 更新 -->
+   	<update id="update" parameterType="Dept">
+        UPDATE t_sys_dept
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="name!=null">
+           name=#{ name},
+          </if>
+          <if test="pid!=null">
+           pid=#{ pid},
+          </if>
+          <if test="pname!=null">
+           pname=#{ pname},
+          </if>
+          <if test="depOrder!=null">
+           dep_order=#{ depOrder},
+          </if>
+          <!--<if test="createDate!=null">-->
+           <!--create_date=#{ createDate},-->
+          <!--</if>-->
+          <if test="updateDate!=null">
+           update_date=#{ updateDate},
+          </if>
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+   	<update id="updateMap">
+        UPDATE t_sys_dept
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="map.name!=null">        
+           name=#{ map.name},
+          </if>
+          <if test="map.pid!=null">        
+           pid=#{ map.pid},
+          </if>
+          <if test="map.pname!=null">        
+           pname=#{ map.pname},
+          </if>
+          <if test="map.depOrder!=null">        
+           dep_order=#{ map.depOrder},
+          </if>
+          <if test="map.createDate!=null">        
+           create_date=#{ map.createDate},
+          </if>
+          <if test="map.updateDate!=null">        
+           update_date=#{ map.updateDate},
+          </if>
+        </trim>
+        WHERE
+       id = #{  map.id }
+	</update>
+
+
+     <insert id="insertMap" >
+        INSERT INTO t_sys_dept (
+             	id,
+			 	name,
+			 	pid,
+			 	pname,
+			 	dep_order,
+			 	create_date,
+			 	update_date,
+        ) VALUES (
+              	#{ map.id},
+		    	#{ map.name},
+		    	#{ map.pid},
+		    	#{ map.pname},
+		    	#{ map.depOrder},
+		    	#{ map.createDate},
+		    	#{ map.updateDate},
+        )
+    </insert>
+
+
+  	<update id="updateNull" parameterType="Dept">
+        UPDATE t_sys_dept
+        <trim prefix="SET" suffixOverrides=","> 
+			    name=#{ name},
+			    pid=#{ pid},
+			    pname=#{ pname},
+			    dep_order=#{ depOrder},
+			    create_date=#{ createDate},
+			    update_date=#{ updateDate},
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+   	<delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM t_sys_dept
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id=#{ id}
+        </trim>
+    </delete>
+
+
+ 	<delete id="deleteByCondition" parameterType="java.util.Map">
+        DELETE FROM  t_sys_dept
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+				<if test="id!=null">
+					AND id =#{ id},
+				</if>        
+			    <if test="name!=null">
+					AND name=#{ name},
+				</if>
+			    <if test="pid!=null">
+					AND pid=#{ pid},
+				</if>
+			    <if test="pname!=null">
+					AND pname=#{ pname},
+				</if>
+			    <if test="depOrder!=null">
+					AND dep_order=#{ depOrder},
+				</if>
+			    <if test="createDate!=null">
+					AND create_date=#{ createDate},
+				</if>
+			    <if test="updateDate!=null">
+					AND update_date=#{ updateDate},
+				</if>
+        </trim>
+    </delete>
+
+    <delete id="deleteByProperty" parameterType="java.util.Map">
+        DELETE FROM t_sys_dept WHERE
+        ${column}=#{ value}
+    </delete>
+
+    <select id="fetch" parameterType="java.lang.Integer" resultType="Dept">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_dept
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id =#{ id}
+        </trim>
+    </select>
+
+    <select id="findOne" parameterType="java.util.Map" resultType="Dept">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_dept WHERE
+        ${column}=#{ value} 
+        LIMIT 0,1
+    </select>
+
+    <select id="findList" parameterType="java.util.Map" resultType="Dept">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_dept WHERE
+       	${column} =#{ value}
+    </select>
+
+    <select id="findAll" resultType="Dept">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_dept
+    </select>
+
+    <select id="queryPage" resultType="Dept">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_dept
+       <include refid="Query_condition" />      
+        <if test="condition.sort != null">
+			order by ${condition.sort}
+		</if>
+        <if test="offset != null">
+            limit ${offset}, ${rows}
+        </if>
+    </select>
+
+    <select id="like" parameterType="java.util.Map" resultType="Dept">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_dept
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id!=null">
+				AND id like '%#{ id}%'
+			</if>
+			<if test="name!=null">
+				AND name Like '%$ {condition.name}%'
+			</if>
+			<if test="pid!=null">
+				AND pid Like '%$ {condition.pid}%'
+			</if>
+			<if test="pname!=null">
+				AND pname Like '%$ {condition.pname}%'
+			</if>
+			<if test="depOrder!=null">
+				AND dep_order Like '%$ {condition.depOrder}%'
+			</if>
+			<if test="createDate!=null">
+				AND create_date Like '%$ {condition.createDate}%'
+			</if>
+			<if test="updateDate!=null">
+				AND update_date Like '%$ {condition.updateDate}%'
+			</if>
+        </trim>
+    </select>
+
+
+ 	<select id="queryList" parameterType="java.util.Map" resultType="Dept">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_dept
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="id!=null">
+                AND id =#{ id}
+            </if>
+			<if test="name!=null">
+				AND name = #{ name}
+			</if>
+			<if test="pid!=null">
+				AND pid = #{ pid}
+			</if>
+			<if test="pname!=null">
+				AND pname = #{ pname}
+			</if>
+			<if test="depOrder!=null">
+				AND dep_order = #{ depOrder}
+			</if>
+			<if test="createDate!=null">
+				AND create_date = #{ createDate}
+			</if>
+			<if test="updateDate!=null">
+				AND update_date = #{ updateDate}
+			</if>
+        </trim>
+        ORDER BY ${orderBy} ${sortBy}
+    </select>
+
+   	<select id="queryOne" parameterType="java.util.Map" resultType="Dept">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_dept
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="id!=null">
+                AND id =#{ id}
+            </if>
+			<if test="name!=null">
+				AND name = #{ name}
+			</if>
+			<if test="pid!=null">
+				AND pid = #{ pid}
+			</if>
+			<if test="pname!=null">
+				AND pname = #{ pname}
+			</if>
+			<if test="depOrder!=null">
+				AND dep_order = #{ depOrder}
+			</if>
+			<if test="createDate!=null">
+				AND create_date = #{ createDate}
+			</if>
+			<if test="updateDate!=null">
+				AND update_date = #{ updateDate}
+			</if>
+        </trim>
+        limit 0,1
+    </select>
+
+  	<select id="count" resultType="java.lang.Integer">
+        SELECT count(id) FROM t_sys_dept
+        <include refid="Query_condition" />  
+    </select>
+
+	<select id="selectMaxId" resultType="java.lang.Integer">
+	    SELECT
+	    MAX(id)
+	    FROM t_sys_dept
+	</select>
+
+</mapper>
+

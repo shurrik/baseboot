@@ -1,0 +1,11 @@
+/.externalToolBuilders/
+/.settings/
+/.classpath
+/.project
+.idea/
+*.iml
+*.ipr
+*.iws
+*/target
+${artifactId}-web/logger-samples/
+logger-samples/

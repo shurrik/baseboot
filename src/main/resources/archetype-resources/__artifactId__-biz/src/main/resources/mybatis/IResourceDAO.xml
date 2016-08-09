@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="${groupId}.${artifactId}.dao.IResourceDAO">
+
+    <sql id="Base_Column_List">
+      id,
+	  name name,
+	  url url,
+	  pid pid,
+	  summary summary,
+	  res_order resOrder,
+	  create_date createDate,
+	  update_date updateDate
+    </sql>
+      <sql id="Query_condition">
+   <trim prefix="WHERE" prefixOverrides="AND | OR">
+              <if test="condition.name!=null">
+			  	AND name Like '%${condition.name}%'
+			  </if>
+              <if test="condition.url!=null">
+			  	AND url Like '%${condition.url}%'
+			  </if>
+              <if test="condition.pid!=null">
+			  	AND pid Like '%${condition.pid}%'
+			  </if>
+              <if test="condition.summary!=null">
+			  	AND summary Like '%${condition.summary}%'
+			  </if>
+              <if test="condition.resOrder!=null">
+			  	AND res_order Like '%${condition.resOrder}%'
+			  </if>
+              <if test="condition.createDate!=null">
+			  	AND create_date Like '%${condition.createDate}%'
+			  </if>
+              <if test="condition.updateDate!=null">
+			  	AND update_date Like '%${condition.updateDate}%'
+			  </if>
+        </trim>  
+    </sql>
+    <insert id="insert" parameterType="Resource">
+        INSERT INTO t_sys_resource (
+	        id,
+		    name,
+		    url,
+		    pid,
+		    summary,
+		    res_order,
+		    create_date,
+		    update_date
+        ) VALUES (
+         	#{ id},
+       		#{ name},
+       		#{ url},
+       		#{ pid},
+       		#{ summary},
+       		#{ resOrder},
+       		sysdate(),
+       		sysdate()
+        )
+    </insert>
+
+    <!-- 更新 -->
+   	<update id="update" parameterType="Resource">
+        UPDATE t_sys_resource
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="name!=null">
+           name=#{ name},
+          </if>
+          <if test="url!=null">
+           url=#{ url},
+          </if>
+          <if test="pid!=null">
+           pid=#{ pid},
+          </if>
+          <if test="summary!=null">
+           summary=#{ summary},
+          </if>
+          <if test="resOrder!=null">
+           res_order=#{ resOrder},
+          </if>
+          <!--<if test="createDate!=null">-->
+           <!--create_date=#{ createDate},-->
+          <!--</if>-->
+          <if test="updateDate!=null">
+           update_date=#{ updateDate},
+          </if>
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+   	<update id="updateMap">
+        UPDATE t_sys_resource
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="map.name!=null">        
+           name=#{ map.name},
+          </if>
+          <if test="map.url!=null">        
+           url=#{ map.url},
+          </if>
+          <if test="map.pid!=null">        
+           pid=#{ map.pid},
+          </if>
+          <if test="map.summary!=null">        
+           summary=#{ map.summary},
+          </if>
+          <if test="map.resOrder!=null">        
+           res_order=#{ map.resOrder},
+          </if>
+          <if test="map.createDate!=null">        
+           create_date=#{ map.createDate},
+          </if>
+          <if test="map.updateDate!=null">        
+           update_date=#{ map.updateDate},
+          </if>
+        </trim>
+        WHERE
+       id = #{  map.id }
+	</update>
+
+
+     <insert id="insertMap" >
+        INSERT INTO t_sys_resource (
+             	id,
+			 	name,
+			 	url,
+			 	pid,
+			 	summary,
+			 	res_order,
+			 	create_date,
+			 	update_date,
+        ) VALUES (
+              	#{ map.id},
+		    	#{ map.name},
+		    	#{ map.url},
+		    	#{ map.pid},
+		    	#{ map.summary},
+		    	#{ map.resOrder},
+		    	#{ map.createDate},
+		    	#{ map.updateDate},
+        )
+    </insert>
+
+
+  	<update id="updateNull" parameterType="Resource">
+        UPDATE t_sys_resource
+        <trim prefix="SET" suffixOverrides=","> 
+			    name=#{ name},
+			    url=#{ url},
+			    pid=#{ pid},
+			    summary=#{ summary},
+			    res_order=#{ resOrder},
+			    create_date=#{ createDate},
+			    update_date=#{ updateDate},
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+   	<delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM t_sys_resource
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id=#{ id}
+        </trim>
+    </delete>
+
+
+ 	<delete id="deleteByCondition" parameterType="java.util.Map">
+        DELETE FROM  t_sys_resource
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+				<if test="id!=null">
+					AND id =#{ id},
+				</if>        
+			    <if test="name!=null">
+					AND name=#{ name},
+				</if>
+			    <if test="url!=null">
+					AND url=#{ url},
+				</if>
+			    <if test="pid!=null">
+					AND pid=#{ pid},
+				</if>
+			    <if test="summary!=null">
+					AND summary=#{ summary},
+				</if>
+			    <if test="resOrder!=null">
+					AND res_order=#{ resOrder},
+				</if>
+			    <if test="createDate!=null">
+					AND create_date=#{ createDate},
+				</if>
+			    <if test="updateDate!=null">
+					AND update_date=#{ updateDate},
+				</if>
+        </trim>
+    </delete>
+
+    <delete id="deleteByProperty" parameterType="java.util.Map">
+        DELETE FROM t_sys_resource WHERE
+        ${column}=#{ value}
+    </delete>
+
+    <select id="fetch" parameterType="java.lang.Integer" resultType="Resource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_resource
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id =#{ id}
+        </trim>
+    </select>
+
+    <select id="findOne" parameterType="java.util.Map" resultType="Resource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_resource WHERE
+        ${property}=#{ value} 
+        LIMIT 0,1
+    </select>
+
+    <select id="findList" parameterType="java.util.Map" resultType="Resource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_resource WHERE
+       	${property} =#{ value}
+    </select>
+
+    <select id="findAll" resultType="Resource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_resource
+    </select>
+
+    <select id="queryPage" resultType="Resource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_resource
+        <include refid="Query_condition" />     
+        <if test="condition.sort != null">
+			order by ${condition.sort}
+		</if>
+        <if test="offset != null">
+            limit ${offset}, ${rows}
+        </if>
+    </select>
+
+    <select id="like" parameterType="java.util.Map" resultType="Resource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_resource
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id!=null">
+				AND id like '%#{ id}%'
+			</if>
+			<if test="name!=null">
+				AND name Like '%$ {condition.name}%'
+			</if>
+			<if test="url!=null">
+				AND url Like '%$ {condition.url}%'
+			</if>
+			<if test="pid!=null">
+				AND pid Like '%$ {condition.pid}%'
+			</if>
+			<if test="summary!=null">
+				AND summary Like '%$ {condition.summary}%'
+			</if>
+			<if test="resOrder!=null">
+				AND res_order Like '%$ {condition.resOrder}%'
+			</if>
+			<if test="createDate!=null">
+				AND create_date Like '%$ {condition.createDate}%'
+			</if>
+			<if test="updateDate!=null">
+				AND update_date Like '%$ {condition.updateDate}%'
+			</if>
+        </trim>
+    </select>
+
+
+ 	<select id="queryList" parameterType="java.util.Map" resultType="Resource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_resource
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="id!=null">
+                AND id =#{ id}
+            </if>
+			<if test="name!=null">
+				AND name = #{ name}
+			</if>
+			<if test="url!=null">
+				AND url = #{ url}
+			</if>
+			<if test="pid!=null">
+				AND pid = #{ pid}
+			</if>
+			<if test="summary!=null">
+				AND summary = #{ summary}
+			</if>
+			<if test="resOrder!=null">
+				AND res_order = #{ resOrder}
+			</if>
+			<if test="createDate!=null">
+				AND create_date = #{ createDate}
+			</if>
+			<if test="updateDate!=null">
+				AND update_date = #{ updateDate}
+			</if>
+        </trim>
+        ORDER BY ${orderBy} ${sortBy}
+    </select>
+
+   	<select id="queryOne" parameterType="java.util.Map" resultType="Resource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_resource
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="id!=null">
+                AND id =#{ id}
+            </if>
+			<if test="name!=null">
+				AND name = #{ name}
+			</if>
+			<if test="url!=null">
+				AND url = #{ url}
+			</if>
+			<if test="pid!=null">
+				AND pid = #{ pid}
+			</if>
+			<if test="summary!=null">
+				AND summary = #{ summary}
+			</if>
+			<if test="resOrder!=null">
+				AND res_order = #{ resOrder}
+			</if>
+			<if test="createDate!=null">
+				AND create_date = #{ createDate}
+			</if>
+			<if test="updateDate!=null">
+				AND update_date = #{ updateDate}
+			</if>
+        </trim>
+        limit 0,1
+    </select>
+
+  	<select id="count" resultType="java.lang.Integer">
+        SELECT count(id) FROM t_sys_resource
+         <include refid="Query_condition" /> 
+    </select>
+
+	<select id="selectMaxId" resultType="java.lang.Integer">
+	    SELECT
+	    MAX(id)
+	    FROM t_sys_resource
+	</select>
+
+    <select id="findMenuByUserIdAndPid" parameterType="java.util.Map" resultType="Resource">
+		SELECT DISTINCT d.id,d.`name`,d.`url`,d.`pid`
+		FROM 
+		t_sys_user a LEFT JOIN t_sys_userrole b
+		ON a.`id` = b.user_id
+		LEFT JOIN t_sys_roleresource c
+		ON b.`role_id` = c.`role_id`
+		LEFT JOIN t_sys_resource d
+		ON c.`resource_id` = d.`id`
+		WHERE a.`id` = #{ userId}
+		AND d.pid = #{ pid}
+		ORDER BY d.`res_order`
+    </select>
+
+</mapper>
+

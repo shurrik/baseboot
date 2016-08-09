@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor name="baseboot">
+  <!--<requiredProperties>-->
+    <!--<requiredProperty key="project_name"/>-->
+    <!--<requiredProperty key="corp"/>-->
+  <!--</requiredProperties>-->
+    <requiredProperties>
+        <requiredProperty key="corp">
+            <defaultValue>crv</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="domain">
+            <defaultValue>com</defaultValue>
+        </requiredProperty>
+    </requiredProperties>
+  <fileSets>
+        <fileSet filtered="true" packaged="false" encoding="UTF-8">
+          <directory></directory>
+          <includes>
+            <include>**/*.java</include>
+            <include>**/*.xml</include>
+	        <include>initDB.bat</include>
+            <include>startup.bat</include>
+            <include>.gitignore</include>
+            <include>**/project.properties</include>
+            <include>**/*.bat</include>
+          </includes>
+        </fileSet>
+        <fileSet filtered="false" packaged="false" encoding="UTF-8">
+          <directory></directory>
+          <includes>
+            <include>**/*.*</include>
+          </includes>
+          <excludes>
+              <exclude>**/*.java</exclude>
+              <exclude>**/*.xml</exclude>
+          </excludes>
+        </fileSet>
+    <!--<fileSet filtered="true" packaged="true" encoding="UTF-8">-->
+      <!--<directory>src/main/java</directory>-->
+      <!--<includes>-->
+        <!--<include>**/*.java</include>-->
+        <!--<include>**/*.html</include>-->
+      <!--</includes>-->
+    <!--</fileSet>-->
+    <!--<fileSet filtered="true" packaged="true" encoding="UTF-8">-->
+      <!--<directory>src/test/java</directory>-->
+      <!--<includes>-->
+        <!--<include>**/*.java</include>-->
+        <!--<include>**/*.html</include>-->
+      <!--</includes>-->
+    <!--</fileSet>-->
+    <!--<fileSet filtered="true" encoding="UTF-8">-->
+      <!--<directory>src/main/webapp</directory>-->
+    <!--</fileSet>-->
+    <!--<fileSet filtered="true" encoding="UTF-8">-->
+      <!--<directory>src/main/resources</directory>-->
+    <!--</fileSet>-->
+    <!--<fileSet filtered="true" encoding="UTF-8">-->
+      <!--<directory>src/test/resources</directory>-->
+    <!--</fileSet>-->
+  </fileSets>
+</archetype-descriptor>

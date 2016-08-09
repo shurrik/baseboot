@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="${groupId}.${artifactId}.dao.IUserRoleDAO">
+
+    <sql id="Base_Column_List">
+      id,
+	  user_id userId,
+	  real_name realName,
+	  role_id roleId,
+	  role_name roleName,
+	  create_date createDate,
+	  update_date updateDate
+    </sql>
+   <sql id="Query_condition">
+     <trim prefix="WHERE" prefixOverrides="AND | OR">
+              <if test="condition.userId!=null">
+			  	AND user_id Like '%${condition.userId}%'
+			  </if>
+              <if test="condition.realName!=null">
+			  	AND real_name Like '%${condition.realName}%'
+			  </if>
+              <if test="condition.roleId!=null">
+			  	AND role_id Like '%${condition.roleId}%'
+			  </if>
+              <if test="condition.roleName!=null">
+			  	AND role_name Like '%${condition.roleName}%'
+			  </if>
+              <if test="condition.createDate!=null">
+			  	AND create_date Like '%${condition.createDate}%'
+			  </if>
+              <if test="condition.updateDate!=null">
+			  	AND update_date Like '%${condition.updateDate}%'
+			  </if>
+        </trim>     
+   </sql>
+   
+    <insert id="insert" parameterType="UserRole">
+        INSERT INTO t_sys_userrole (
+	        id,
+		    user_id,
+		    real_name,
+		    role_id,
+		    role_name,
+		    create_date,
+		    update_date
+        ) VALUES (
+         	#{ id},
+       		#{ userId},
+       		#{ realName},
+       		#{ roleId},
+       		#{ roleName},
+       		sysdate(),
+       		sysdate()
+        )
+    </insert>
+
+    <!-- 更新 -->
+   	<update id="update" parameterType="UserRole">
+        UPDATE t_sys_userrole
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="userId!=null">
+           user_id=#{ userId},
+          </if>
+          <if test="realName!=null">
+           real_name=#{ realName},
+          </if>
+          <if test="roleId!=null">
+           role_id=#{ roleId},
+          </if>
+          <if test="roleName!=null">
+           role_name=#{ roleName},
+          </if>
+          <!--<if test="createDate!=null">-->
+           <!--create_date=#{ createDate},-->
+          <!--</if>-->
+          <if test="updateDate!=null">
+           update_date=#{ updateDate},
+          </if>
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+   	<update id="updateMap">
+        UPDATE t_sys_userrole
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="map.userId!=null">        
+           user_id=#{ map.userId},
+          </if>
+          <if test="map.realName!=null">        
+           real_name=#{ map.realName},
+          </if>
+          <if test="map.roleId!=null">        
+           role_id=#{ map.roleId},
+          </if>
+          <if test="map.roleName!=null">        
+           role_name=#{ map.roleName},
+          </if>
+          <if test="map.createDate!=null">        
+           create_date=#{ map.createDate},
+          </if>
+          <if test="map.updateDate!=null">        
+           update_date=#{ map.updateDate},
+          </if>
+        </trim>
+        WHERE
+       id = #{  map.id }
+	</update>
+
+
+     <insert id="insertMap" >
+        INSERT INTO t_sys_userrole (
+             	id,
+			 	user_id,
+			 	real_name,
+			 	role_id,
+			 	role_name,
+			 	create_date,
+			 	update_date,
+        ) VALUES (
+              	#{ map.id},
+		    	#{ map.userId},
+		    	#{ map.realName},
+		    	#{ map.roleId},
+		    	#{ map.roleName},
+		    	#{ map.createDate},
+		    	#{ map.updateDate},
+        )
+    </insert>
+
+
+  	<update id="updateNull" parameterType="UserRole">
+        UPDATE t_sys_userrole
+        <trim prefix="SET" suffixOverrides=","> 
+			    user_id=#{ userId},
+			    real_name=#{ realName},
+			    role_id=#{ roleId},
+			    role_name=#{ roleName},
+			    create_date=#{ createDate},
+			    update_date=#{ updateDate},
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+   	<delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM t_sys_userrole
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id=#{ id}
+        </trim>
+    </delete>
+
+
+ 	<delete id="deleteByCondition" parameterType="java.util.Map">
+        DELETE FROM  t_sys_userrole
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+				<if test="id!=null">
+					AND id =#{ id},
+				</if>        
+			    <if test="userId!=null">
+					AND user_id=#{ userId},
+				</if>
+			    <if test="realName!=null">
+					AND real_name=#{ realName},
+				</if>
+			    <if test="roleId!=null">
+					AND role_id=#{ roleId},
+				</if>
+			    <if test="roleName!=null">
+					AND role_name=#{ roleName},
+				</if>
+			    <if test="createDate!=null">
+					AND create_date=#{ createDate},
+				</if>
+			    <if test="updateDate!=null">
+					AND update_date=#{ updateDate},
+				</if>
+        </trim>
+    </delete>
+
+    <delete id="deleteByProperty" parameterType="java.util.Map">
+        DELETE FROM t_sys_userrole WHERE
+        ${property}=#{ value}
+    </delete>
+
+    <select id="fetch" parameterType="java.lang.Integer" resultType="UserRole">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_userrole
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id =#{ id}
+        </trim>
+    </select>
+
+    <select id="findOne" parameterType="java.util.Map" resultType="UserRole">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_userrole WHERE
+        ${property}=#{ value} 
+        LIMIT 0,1
+    </select>
+
+    <select id="findList" parameterType="java.util.Map" resultType="UserRole">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_userrole WHERE
+       	${property} =#{ value}
+    </select>
+
+    <select id="findAll" resultType="UserRole">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_userrole
+    </select>
+
+    <select id="queryPage" resultType="UserRole">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_userrole
+         <include refid="Query_condition" /> 
+        <if test="condition.sort != null">
+			order by ${condition.sort}
+		</if>
+        <if test="offset != null">
+            limit ${offset}, ${rows}
+        </if>
+    </select>
+
+    <select id="like" parameterType="java.util.Map" resultType="UserRole">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_userrole
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id!=null">
+				AND id like '%#{ id}%'
+			</if>
+			<if test="userId!=null">
+				AND user_id Like '%$ {condition.userId}%'
+			</if>
+			<if test="realName!=null">
+				AND real_name Like '%$ {condition.realName}%'
+			</if>
+			<if test="roleId!=null">
+				AND role_id Like '%$ {condition.roleId}%'
+			</if>
+			<if test="roleName!=null">
+				AND role_name Like '%$ {condition.roleName}%'
+			</if>
+			<if test="createDate!=null">
+				AND create_date Like '%$ {condition.createDate}%'
+			</if>
+			<if test="updateDate!=null">
+				AND update_date Like '%$ {condition.updateDate}%'
+			</if>
+        </trim>
+    </select>
+
+
+ 	<select id="queryList" parameterType="java.util.Map" resultType="UserRole">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_userrole
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="id!=null">
+                AND id =#{ id}
+            </if>
+			<if test="userId!=null">
+				AND user_id = #{ userId}
+			</if>
+			<if test="realName!=null">
+				AND real_name = #{ realName}
+			</if>
+			<if test="roleId!=null">
+				AND role_id = #{ roleId}
+			</if>
+			<if test="roleName!=null">
+				AND role_name = #{ roleName}
+			</if>
+			<if test="createDate!=null">
+				AND create_date = #{ createDate}
+			</if>
+			<if test="updateDate!=null">
+				AND update_date = #{ updateDate}
+			</if>
+        </trim>
+        ORDER BY ${orderBy} ${sortBy}
+    </select>
+
+   	<select id="queryOne" parameterType="java.util.Map" resultType="UserRole">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_userrole
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="id!=null">
+                AND id =#{ id}
+            </if>
+			<if test="userId!=null">
+				AND user_id = #{ userId}
+			</if>
+			<if test="realName!=null">
+				AND real_name = #{ realName}
+			</if>
+			<if test="roleId!=null">
+				AND role_id = #{ roleId}
+			</if>
+			<if test="roleName!=null">
+				AND role_name = #{ roleName}
+			</if>
+			<if test="createDate!=null">
+				AND create_date = #{ createDate}
+			</if>
+			<if test="updateDate!=null">
+				AND update_date = #{ updateDate}
+			</if>
+        </trim>
+        limit 0,1
+    </select>
+
+  	<select id="count" resultType="java.lang.Integer">
+        SELECT count(id) FROM t_sys_userrole
+          <include refid="Query_condition" />
+    </select>
+
+	<select id="selectMaxId" resultType="java.lang.Integer">
+	    SELECT
+	    MAX(id)
+	    FROM t_sys_userrole
+	</select>
+
+</mapper>
+

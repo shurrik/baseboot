@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="${groupId}.${artifactId}.dao.IMessageDAO">
+
+    <sql id="Base_Column_List">
+      id,
+	  from_id fromId,
+	  from_name fromName,
+	  to_id toId,
+	  to_name toName,
+	  title title,
+	  content content,
+	  read_flag readFlag,
+	  url url,
+	  create_date createDate,
+	  update_date updateDate
+    </sql>
+     <sql id="Query_condition">
+      <trim prefix="WHERE" prefixOverrides="AND | OR">
+              <if test="condition.fromId!=null">
+			  	AND from_id Like '%${condition.fromId}%'
+			  </if>
+              <if test="condition.fromName!=null">
+			  	AND from_name Like '%${condition.fromName}%'
+			  </if>
+              <if test="condition.toId!=null">
+			  	AND to_id Like '%${condition.toId}%'
+			  </if>
+              <if test="condition.toName!=null">
+			  	AND to_name Like '%${condition.toName}%'
+			  </if>
+              <if test="condition.title!=null">
+			  	AND title Like '%${condition.title}%'
+			  </if>
+              <if test="condition.content!=null">
+			  	AND content Like '%${condition.content}%'
+			  </if>
+              <if test="condition.readFlag!=null">
+			  	AND read_flag Like '%${condition.readFlag}%'
+			  </if>
+              <if test="condition.url!=null">
+			  	AND url Like '%${condition.url}%'
+			  </if>
+              <if test="condition.createDate!=null">
+			  	AND create_date Like '%${condition.createDate}%'
+			  </if>
+              <if test="condition.updateDate!=null">
+			  	AND update_date Like '%${condition.updateDate}%'
+			  </if>
+        </trim>     
+    </sql>
+    <insert id="insert" parameterType="Message">
+        INSERT INTO t_sys_message (
+	        id,
+		    from_id,
+		    from_name,
+		    to_id,
+		    to_name,
+		    title,
+		    content,
+		    read_flag,
+		    url,
+		    create_date,
+		    update_date
+        ) VALUES (
+         	#{ id},
+       		#{ fromId},
+       		#{ fromName},
+       		#{ toId},
+       		#{ toName},
+       		#{ title},
+       		#{ content},
+       		#{ readFlag},
+       		#{ url},
+       		sysdate(),
+       		sysdate()
+        )
+    </insert>
+
+    <!-- 更新 -->
+   	<update id="update" parameterType="Message">
+        UPDATE t_sys_message
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="fromId!=null">
+           from_id=#{ fromId},
+          </if>
+          <if test="fromName!=null">
+           from_name=#{ fromName},
+          </if>
+          <if test="toId!=null">
+           to_id=#{ toId},
+          </if>
+          <if test="toName!=null">
+           to_name=#{ toName},
+          </if>
+          <if test="title!=null">
+           title=#{ title},
+          </if>
+          <if test="content!=null">
+           content=#{ content},
+          </if>
+          <if test="readFlag!=null">
+           read_flag=#{ readFlag},
+          </if>
+          <if test="url!=null">
+           url=#{ url},
+          </if>
+          <!--<if test="createDate!=null">-->
+           <!--create_date=#{ createDate},-->
+          <!--</if>-->
+          <if test="updateDate!=null">
+           update_date=#{ updateDate},
+          </if>
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+   	<update id="updateMap">
+        UPDATE t_sys_message
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="map.fromId!=null">        
+           from_id=#{ map.fromId},
+          </if>
+          <if test="map.fromName!=null">        
+           from_name=#{ map.fromName},
+          </if>
+          <if test="map.toId!=null">        
+           to_id=#{ map.toId},
+          </if>
+          <if test="map.toName!=null">        
+           to_name=#{ map.toName},
+          </if>
+          <if test="map.title!=null">        
+           title=#{ map.title},
+          </if>
+          <if test="map.content!=null">        
+           content=#{ map.content},
+          </if>
+          <if test="map.readFlag!=null">        
+           read_flag=#{ map.readFlag},
+          </if>
+          <if test="map.url!=null">        
+           url=#{ map.url},
+          </if>
+          <if test="map.createDate!=null">        
+           create_date=#{ map.createDate},
+          </if>
+          <if test="map.updateDate!=null">        
+           update_date=#{ map.updateDate},
+          </if>
+        </trim>
+        WHERE
+       id = #{  map.id }
+	</update>
+
+
+     <insert id="insertMap" >
+        INSERT INTO t_sys_message (
+             	id,
+			 	from_id,
+			 	from_name,
+			 	to_id,
+			 	to_name,
+			 	title,
+			 	content,
+			 	read_flag,
+			 	url,
+			 	create_date,
+			 	update_date,
+        ) VALUES (
+              	#{ map.id},
+		    	#{ map.fromId},
+		    	#{ map.fromName},
+		    	#{ map.toId},
+		    	#{ map.toName},
+		    	#{ map.title},
+		    	#{ map.content},
+		    	#{ map.readFlag},
+		    	#{ map.url},
+		    	#{ map.createDate},
+		    	#{ map.updateDate},
+        )
+    </insert>
+
+
+  	<update id="updateNull" parameterType="Message">
+        UPDATE t_sys_message
+        <trim prefix="SET" suffixOverrides=","> 
+			    from_id=#{ fromId},
+			    from_name=#{ fromName},
+			    to_id=#{ toId},
+			    to_name=#{ toName},
+			    title=#{ title},
+			    content=#{ content},
+			    read_flag=#{ readFlag},
+			    url=#{ url},
+			    create_date=#{ createDate},
+			    update_date=#{ updateDate},
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+   	<delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM t_sys_message
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id=#{ id}
+        </trim>
+    </delete>
+
+
+ 	<delete id="deleteByCondition" parameterType="java.util.Map">
+        DELETE FROM  t_sys_message
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+					        
+				<if test="map.fromId!=null">
+					AND from_id = #{ map.fromId}
+				</if>				
+				<if test="map.fromName!=null">
+					AND from_name = #{ map.fromName}
+				</if>				
+				<if test="map.toId!=null">
+					AND to_id = #{ map.toId}
+				</if>				
+				<if test="map.toName!=null">
+					AND to_name = #{ map.toName}
+				</if>				
+				<if test="map.title!=null">
+					AND title = #{ map.title}
+				</if>				
+				<if test="map.content!=null">
+					AND content = #{ map.content}
+				</if>				
+				<if test="map.readFlag!=null">
+					AND read_flag = #{ map.readFlag}
+				</if>				
+				<if test="map.url!=null">
+					AND url = #{ map.url}
+				</if>				
+				<if test="map.createDate!=null">
+					AND create_date = #{ map.createDate}
+				</if>				
+				<if test="map.updateDate!=null">
+					AND update_date = #{ map.updateDate}
+				</if>				
+        </trim>
+    </delete>
+
+    <delete id="deleteByProperty" parameterType="java.util.Map">
+        DELETE FROM t_sys_message WHERE
+        ${property}=#{ value}
+    </delete>
+
+    <select id="fetch" parameterType="java.lang.Integer" resultType="Message">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_message
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id =#{ id}
+        </trim>
+    </select>
+
+    <select id="findOne" parameterType="java.util.Map" resultType="Message">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_message WHERE
+        ${property}=#{ value} 
+        LIMIT 0,1
+    </select>
+
+    <select id="findList" parameterType="java.util.Map" resultType="Message">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_message WHERE
+       	${property} =#{ value}
+    </select>
+
+    <select id="findAll" resultType="Message">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_message
+    </select>
+
+    <select id="queryPage" resultType="Message">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_message
+        <include refid="Query_condition" />    
+        <if test="condition.sort != null">
+			order by ${condition.sort}
+		</if>
+        <if test="offset != null">
+            limit ${offset}, ${rows}
+        </if>
+    </select>
+
+    <select id="like" parameterType="java.util.Map" resultType="Message">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_message
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id!=null">
+				AND id like '%#{ id}%'
+			</if>
+			<if test="fromId!=null">
+				AND from_id Like '%$ {condition.fromId}%'
+			</if>
+			<if test="fromName!=null">
+				AND from_name Like '%$ {condition.fromName}%'
+			</if>
+			<if test="toId!=null">
+				AND to_id Like '%$ {condition.toId}%'
+			</if>
+			<if test="toName!=null">
+				AND to_name Like '%$ {condition.toName}%'
+			</if>
+			<if test="title!=null">
+				AND title Like '%$ {condition.title}%'
+			</if>
+			<if test="content!=null">
+				AND content Like '%$ {condition.content}%'
+			</if>
+			<if test="readFlag!=null">
+				AND read_flag Like '%$ {condition.readFlag}%'
+			</if>
+			<if test="url!=null">
+				AND url Like '%$ {condition.url}%'
+			</if>
+			<if test="createDate!=null">
+				AND create_date Like '%$ {condition.createDate}%'
+			</if>
+			<if test="updateDate!=null">
+				AND update_date Like '%$ {condition.updateDate}%'
+			</if>
+        </trim>
+    </select>
+
+
+ 	<select id="queryList" parameterType="java.util.Map" resultType="Message">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_message
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{ map.id}
+            </if>
+			<if test="map.fromId!=null">
+				AND from_id = #{ map.fromId}
+			</if>
+			<if test="map.fromName!=null">
+				AND from_name = #{ map.fromName}
+			</if>
+			<if test="map.toId!=null">
+				AND to_id = #{ map.toId}
+			</if>
+			<if test="map.toName!=null">
+				AND to_name = #{ map.toName}
+			</if>
+			<if test="map.title!=null">
+				AND title = #{ map.title}
+			</if>
+			<if test="map.content!=null">
+				AND content = #{ map.content}
+			</if>
+			<if test="map.readFlag!=null">
+				AND read_flag = ${map.readFlag}
+			</if>
+			<if test="map.url!=null">
+				AND url = #{ map.url}
+			</if>
+			<if test="map.createDate!=null">
+				AND create_date = #{ map.createDate}
+			</if>
+			<if test="map.updateDate!=null">
+				AND update_date = #{ map.updateDate}
+			</if>
+        </trim>
+        ORDER BY ${orderBy} ${sortBy}
+    </select>
+
+   	<select id="queryOne" parameterType="java.util.Map" resultType="Message">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_message
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{ map.id}
+            </if>
+			<if test="map.fromId!=null">
+				AND from_id = #{ map.fromId}
+			</if>
+			<if test="map.fromName!=null">
+				AND from_name = #{ map.fromName}
+			</if>
+			<if test="map.toId!=null">
+				AND to_id = #{ map.toId}
+			</if>
+			<if test="map.toName!=null">
+				AND to_name = #{ map.toName}
+			</if>
+			<if test="map.title!=null">
+				AND title = #{ map.title}
+			</if>
+			<if test="map.content!=null">
+				AND content = #{ map.content}
+			</if>
+			<if test="map.readFlag!=null">
+				AND read_flag = #{ map.readFlag}
+			</if>
+			<if test="map.url!=null">
+				AND url = #{ map.url}
+			</if>
+			<if test="map.createDate!=null">
+				AND create_date = #{ map.createDate}
+			</if>
+			<if test="map.updateDate!=null">
+				AND update_date = #{ map.updateDate}
+			</if>
+        </trim>
+        limit 0,1
+    </select>
+
+  	<select id="count" resultType="java.lang.Integer">
+        SELECT count(id) FROM t_sys_message
+        <include refid="Query_condition" />  
+    </select>
+
+	<select id="selectMaxId" resultType="java.lang.Integer">
+	    SELECT
+	    MAX(id)
+	    FROM t_sys_message
+	</select>
+
+    <select id="findNewMsgs" parameterType="java.util.Map" resultType="Message">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_message WHERE
+        1=1
+       	AND to_id =#{ toId}
+       	AND read_flag=0
+    </select>
+
+  	<update id="readAll" parameterType="Message">
+        UPDATE t_sys_message
+        SET read_flag = 1
+        WHERE to_id = #{ toId}
+    </update>
+
+</mapper>
+

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="${groupId}.${artifactId}.dao.ISettingDAO">
+
+    <sql id="Base_Column_List">
+      id,
+	  param_val paramVal,
+	  param_key paramKey,
+	  note note,
+	  create_date createDate,
+	  update_date updateDate
+    </sql>
+
+    <sql id="Query_condition">
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="condition.paramVal!=null">
+                AND param_val Like '%${condition.paramVal}%'
+            </if>
+            <if test="condition.paramKey!=null">
+                AND param_key Like '%${condition.paramKey}%'
+            </if>
+            <if test="condition.note!=null">
+                AND note Like '%${condition.note}%'
+            </if>
+            <if test="condition.createDate!=null">
+                AND create_date Like '%${condition.createDate}%'
+            </if>
+            <if test="condition.updateDate!=null">
+                AND update_date Like '%${condition.updateDate}%'
+            </if>
+        </trim>
+    </sql>
+
+    <insert id="insert" parameterType="Setting">
+        INSERT INTO t_sys_setting (
+        id,
+        param_val,
+        param_key,
+        note,
+        create_date,
+        update_date
+        ) VALUES (
+        #{ id},
+        #{ paramVal},
+        #{ paramKey},
+        #{ note},
+        sysdate(),
+        sysdate()
+        )
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" parameterType="Setting">
+        UPDATE t_sys_setting
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="paramVal!=null">
+                param_val=#{ paramVal},
+            </if>
+            <if test="paramKey!=null">
+                param_key=#{ paramKey},
+            </if>
+            <if test="note!=null">
+                note=#{ note},
+            </if>
+            <!--<if test="createDate!=null">-->
+                <!--create_date=sysdate(),-->
+            <!--</if>-->
+            <if test="updateDate!=null">
+                update_date=sysdate(),
+            </if>
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+    <update id="updateMap">
+        UPDATE t_sys_setting
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="map.paramVal!=null">
+                param_val=#{ map.paramVal},
+            </if>
+            <if test="map.paramKey!=null">
+                param_key=#{ map.paramKey},
+            </if>
+            <if test="map.note!=null">
+                note=#{ map.note},
+            </if>
+            <if test="map.createDate!=null">
+                create_date=sysdate(),
+            </if>
+            <if test="map.updateDate!=null">
+                update_date=sysdate(),
+            </if>
+        </trim>
+        WHERE
+        id = #{  map.id }
+    </update>
+
+
+    <insert id="insertMap" >
+        INSERT INTO t_sys_setting (
+        id,
+        param_val,
+        param_key,
+        note,
+        create_date,
+        update_date,
+        ) VALUES (
+        #{ map.id},
+        #{ map.paramVal},
+        #{ map.paramKey},
+        #{ map.note},
+        sysdate(),
+        sysdate(),
+        )
+    </insert>
+
+
+    <update id="updateNull" parameterType="Setting">
+        UPDATE t_sys_setting
+        <trim prefix="SET" suffixOverrides=",">
+            param_val=#{ paramVal},
+            param_key=#{ paramKey},
+            note=#{ note},
+            create_date=sysdate(),
+            update_date=sysdate(),
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM t_sys_setting
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id=#{ id}
+        </trim>
+    </delete>
+
+
+    <delete id="deleteByCondition" parameterType="java.util.Map">
+        DELETE FROM  t_sys_setting
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{ map.id}
+            </if>
+            <if test="map.paramVal!=null">
+                AND param_val = #{ map.paramVal}
+            </if>
+            <if test="map.paramKey!=null">
+                AND param_key = #{ map.paramKey}
+            </if>
+            <if test="map.note!=null">
+                AND note = #{ map.note}
+            </if>
+            <if test="map.createDate!=null">
+                AND create_date = sysdate()
+            </if>
+            <if test="map.updateDate!=null">
+                AND update_date = sysdate()
+            </if>
+        </trim>
+    </delete>
+
+    <delete id="deleteByProperty" parameterType="java.util.Map">
+        DELETE FROM t_sys_setting WHERE
+        ${property}=#{ value}
+    </delete>
+
+    <select id="fetch" parameterType="java.lang.Integer" resultType="Setting">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_setting
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id =#{ id}
+        </trim>
+    </select>
+
+    <select id="findOne" parameterType="java.util.Map" resultType="Setting">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_setting WHERE
+        ${property}=#{ value}
+        LIMIT 0,1
+    </select>
+
+    <select id="findList" parameterType="java.util.Map" resultType="Setting">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_setting WHERE
+        ${property} =#{ value}
+    </select>
+
+    <select id="findAll" resultType="Setting">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_setting
+    </select>
+
+    <select id="queryPage" resultType="Setting">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_setting
+        <include refid="Query_condition" />
+        <if test="condition.sort != null">
+            order by ${condition.sort}
+        </if>
+        <if test="offset != null">
+            limit ${offset}, ${rows}
+        </if>
+    </select>
+
+    <select id="like" parameterType="java.util.Map" resultType="Setting">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_setting
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="id!=null">
+                AND id like '%#{ id}%'
+            </if>
+            <if test="paramVal!=null">
+                AND param_val Like '%$ {condition.paramVal}%'
+            </if>
+            <if test="paramKey!=null">
+                AND param_key Like '%$ {condition.paramKey}%'
+            </if>
+            <if test="note!=null">
+                AND note Like '%$ {condition.note}%'
+            </if>
+            <if test="createDate!=null">
+                AND create_date Like '%$ {condition.createDate}%'
+            </if>
+            <if test="updateDate!=null">
+                AND update_date Like '%$ {condition.updateDate}%'
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="queryList" parameterType="java.util.Map" resultType="Setting">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_setting
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{ map.id}
+            </if>
+            <if test="map.paramVal!=null">
+                AND param_val = #{ map.paramVal}
+            </if>
+            <if test="map.paramKey!=null">
+                AND param_key = #{ map.paramKey}
+            </if>
+            <if test="map.note!=null">
+                AND note = #{ map.note}
+            </if>
+            <if test="map.createDate!=null">
+                AND create_date = sysdate()
+            </if>
+            <if test="map.updateDate!=null">
+                AND update_date = sysdate()
+            </if>
+        </trim>
+        ORDER BY ${orderBy} ${sortBy}
+    </select>
+
+    <select id="queryOne" parameterType="java.util.Map" resultType="Setting">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_setting
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{ map.id}
+            </if>
+            <if test="map.paramVal!=null">
+                AND param_val = #{ map.paramVal}
+            </if>
+            <if test="map.paramKey!=null">
+                AND param_key = #{ map.paramKey}
+            </if>
+            <if test="map.note!=null">
+                AND note = #{ map.note}
+            </if>
+            <if test="map.createDate!=null">
+                AND create_date = sysdate()
+            </if>
+            <if test="map.updateDate!=null">
+                AND update_date = sysdate()
+            </if>
+        </trim>
+        limit 0,1
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT count(id) FROM t_sys_setting
+        <include refid="Query_condition" />
+    </select>
+
+    <select id="selectMaxId" resultType="java.lang.Integer">
+	    SELECT
+	    MAX(id)
+	    FROM t_sys_setting
+	</select>
+
+</mapper>
+

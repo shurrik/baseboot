@@ -1,0 +1,1 @@
+java -cp codegen-jar-with-dependencies.jar com.shurrik.codegen.JsonCommendLine

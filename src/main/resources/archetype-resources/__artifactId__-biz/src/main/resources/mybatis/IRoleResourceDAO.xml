@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="${groupId}.${artifactId}.dao.IRoleResourceDAO">
+
+    <sql id="Base_Column_List">
+      id,
+	  role_id roleId,
+	  role_name roleName,
+	  resource_id resourceId,
+	  resource_name resourceName,
+	  create_date createDate,
+	  update_date updateDate
+    </sql>
+    <sql id="Query_condition">
+      <trim prefix="WHERE" prefixOverrides="AND | OR">
+              <if test="condition.roleId!=null">
+			  	AND role_id Like '%${condition.roleId}%'
+			  </if>
+              <if test="condition.roleName!=null">
+			  	AND role_name Like '%${condition.roleName}%'
+			  </if>
+              <if test="condition.resourceId!=null">
+			  	AND resource_id Like '%${condition.resourceId}%'
+			  </if>
+              <if test="condition.resourceName!=null">
+			  	AND resource_name Like '%${condition.resourceName}%'
+			  </if>
+              <if test="condition.createDate!=null">
+			  	AND create_date Like '%${condition.createDate}%'
+			  </if>
+              <if test="condition.updateDate!=null">
+			  	AND update_date Like '%${condition.updateDate}%'
+			  </if>
+        </trim>   
+    </sql>
+    <insert id="insert" parameterType="RoleResource">
+        INSERT INTO t_sys_roleresource (
+	        id,
+		    role_id,
+		    role_name,
+		    resource_id,
+		    resource_name,
+		    create_date,
+		    update_date
+        ) VALUES (
+         	#{ id},
+       		#{ roleId},
+       		#{ roleName},
+       		#{ resourceId},
+       		#{ resourceName},
+       		sysdate(),
+       		sysdate()
+        )
+    </insert>
+
+    <!-- 更新 -->
+   	<update id="update" parameterType="RoleResource">
+        UPDATE t_sys_roleresource
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="roleId!=null">
+           role_id=#{ roleId},
+          </if>
+          <if test="roleName!=null">
+           role_name=#{ roleName},
+          </if>
+          <if test="resourceId!=null">
+           resource_id=#{ resourceId},
+          </if>
+          <if test="resourceName!=null">
+           resource_name=#{ resourceName},
+          </if>
+          <!--<if test="createDate!=null">-->
+           <!--create_date=#{ createDate},-->
+          <!--</if>-->
+          <if test="updateDate!=null">
+           update_date=#{ updateDate},
+          </if>
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+   	<update id="updateMap">
+        UPDATE t_sys_roleresource
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="map.roleId!=null">        
+           role_id=#{ map.roleId},
+          </if>
+          <if test="map.roleName!=null">        
+           role_name=#{ map.roleName},
+          </if>
+          <if test="map.resourceId!=null">        
+           resource_id=#{ map.resourceId},
+          </if>
+          <if test="map.resourceName!=null">        
+           resource_name=#{ map.resourceName},
+          </if>
+          <if test="map.createDate!=null">        
+           create_date=#{ map.createDate},
+          </if>
+          <if test="map.updateDate!=null">        
+           update_date=#{ map.updateDate},
+          </if>
+        </trim>
+        WHERE
+       id = #{  map.id }
+	</update>
+
+
+     <insert id="insertMap" >
+        INSERT INTO t_sys_roleresource (
+             	id,
+			 	role_id,
+			 	role_name,
+			 	resource_id,
+			 	resource_name,
+			 	create_date,
+			 	update_date,
+        ) VALUES (
+              	#{ map.id},
+		    	#{ map.roleId},
+		    	#{ map.roleName},
+		    	#{ map.resourceId},
+		    	#{ map.resourceName},
+		    	#{ map.createDate},
+		    	#{ map.updateDate},
+        )
+    </insert>
+
+
+  	<update id="updateNull" parameterType="RoleResource">
+        UPDATE t_sys_roleresource
+        <trim prefix="SET" suffixOverrides=","> 
+			    role_id=#{ roleId},
+			    role_name=#{ roleName},
+			    resource_id=#{ resourceId},
+			    resource_name=#{ resourceName},
+			    create_date=#{ createDate},
+			    update_date=#{ updateDate},
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+   	<delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM t_sys_roleresource
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id=#{ id}
+        </trim>
+    </delete>
+
+
+ 	<delete id="deleteByCondition" parameterType="java.util.Map">
+        DELETE FROM  t_sys_roleresource
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+				<if test="id!=null">
+					AND id =#{ id},
+				</if>        
+			    <if test="roleId!=null">
+					AND role_id=#{ roleId},
+				</if>
+			    <if test="roleName!=null">
+					AND role_name=#{ roleName},
+				</if>
+			    <if test="resourceId!=null">
+					AND resource_id=#{ resourceId},
+				</if>
+			    <if test="resourceName!=null">
+					AND resource_name=#{ resourceName},
+				</if>
+			    <if test="createDate!=null">
+					AND create_date=#{ createDate},
+				</if>
+			    <if test="updateDate!=null">
+					AND update_date=#{ updateDate},
+				</if>
+        </trim>
+    </delete>
+
+    <delete id="deleteByProperty" parameterType="java.util.Map">
+        DELETE FROM t_sys_roleresource WHERE
+        ${property}=#{ value}
+    </delete>
+
+    <select id="fetch" parameterType="java.lang.Integer" resultType="RoleResource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_roleresource
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id =#{ id}
+        </trim>
+    </select>
+
+    <select id="findOne" parameterType="java.util.Map" resultType="RoleResource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_roleresource WHERE
+        ${property}=#{ value} 
+        LIMIT 0,1
+    </select>
+
+    <select id="findList" parameterType="java.util.Map" resultType="RoleResource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_roleresource WHERE
+       	${property} =#{ value}
+    </select>
+
+    <select id="findAll" resultType="RoleResource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_roleresource
+    </select>
+
+    <select id="queryPage" resultType="RoleResource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_roleresource
+        <include refid="Query_condition" />       
+        <if test="condition.sort != null">
+			order by ${condition.sort}
+		</if>
+        <if test="offset != null">
+            limit ${offset}, ${rows}
+        </if>
+    </select>
+
+    <select id="like" parameterType="java.util.Map" resultType="RoleResource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_roleresource
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id!=null">
+				AND id like '%#{ id}%'
+			</if>
+			<if test="roleId!=null">
+				AND role_id Like '%$ {condition.roleId}%'
+			</if>
+			<if test="roleName!=null">
+				AND role_name Like '%$ {condition.roleName}%'
+			</if>
+			<if test="resourceId!=null">
+				AND resource_id Like '%$ {condition.resourceId}%'
+			</if>
+			<if test="resourceName!=null">
+				AND resource_name Like '%$ {condition.resourceName}%'
+			</if>
+			<if test="createDate!=null">
+				AND create_date Like '%$ {condition.createDate}%'
+			</if>
+			<if test="updateDate!=null">
+				AND update_date Like '%$ {condition.updateDate}%'
+			</if>
+        </trim>
+    </select>
+
+
+ 	<select id="queryList" parameterType="java.util.Map" resultType="RoleResource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_roleresource
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="id!=null">
+                AND id =#{ id}
+            </if>
+			<if test="roleId!=null">
+				AND role_id = #{ roleId}
+			</if>
+			<if test="roleName!=null">
+				AND role_name = #{ roleName}
+			</if>
+			<if test="resourceId!=null">
+				AND resource_id = #{ resourceId}
+			</if>
+			<if test="resourceName!=null">
+				AND resource_name = #{ resourceName}
+			</if>
+			<if test="createDate!=null">
+				AND create_date = #{ createDate}
+			</if>
+			<if test="updateDate!=null">
+				AND update_date = #{ updateDate}
+			</if>
+        </trim>
+        ORDER BY ${orderBy} ${sortBy}
+    </select>
+
+   	<select id="queryOne" parameterType="java.util.Map" resultType="RoleResource">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_roleresource
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="id!=null">
+                AND id =#{ id}
+            </if>
+			<if test="roleId!=null">
+				AND role_id = #{ roleId}
+			</if>
+			<if test="roleName!=null">
+				AND role_name = #{ roleName}
+			</if>
+			<if test="resourceId!=null">
+				AND resource_id = #{ resourceId}
+			</if>
+			<if test="resourceName!=null">
+				AND resource_name = #{ resourceName}
+			</if>
+			<if test="createDate!=null">
+				AND create_date = #{ createDate}
+			</if>
+			<if test="updateDate!=null">
+				AND update_date = #{ updateDate}
+			</if>
+        </trim>
+        limit 0,1
+    </select>
+
+  	<select id="count" resultType="java.lang.Integer">
+        SELECT count(id) FROM t_sys_roleresource
+         <include refid="Query_condition" /> 
+    </select>
+
+	<select id="selectMaxId" resultType="java.lang.Integer">
+	    SELECT
+	    MAX(id)
+	    FROM t_sys_roleresource
+	</select>
+
+</mapper>
+

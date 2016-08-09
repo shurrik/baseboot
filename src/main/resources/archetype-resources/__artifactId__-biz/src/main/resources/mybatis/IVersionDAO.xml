@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="${groupId}.${artifactId}.dao.IVersionDAO">
+
+    <sql id="Base_Column_List">
+      id,
+	  sys_name sysName,
+	  sys_version sysVersion,
+	  build_date buildDate,
+	  copy_right copyRight,
+	  create_date createDate
+    </sql>
+    
+    <sql id="Query_condition">
+      <trim prefix="WHERE" prefixOverrides="AND | OR">
+              <if test="condition.sysName!=null">
+			  	AND sys_name Like '%${condition.sysName}%'
+			  </if>
+              <if test="condition.sysVersion!=null">
+			  	AND sys_version Like '%${condition.sysVersion}%'
+			  </if>
+              <if test="condition.buildDate!=null">
+			  	AND build_date Like '%${condition.buildDate}%'
+			  </if>
+              <if test="condition.copyRight!=null">
+			  	AND copy_right Like '%${condition.copyRight}%'
+			  </if>
+              <if test="condition.createDate!=null">
+			  	AND create_date Like '%${condition.createDate}%'
+			  </if>
+        </trim>
+    </sql>
+    
+    <insert id="insert" parameterType="Version">
+        INSERT INTO t_sys_version (
+	        id,
+		    sys_name,
+		    sys_version,
+		    build_date,
+		    copy_right,
+		    create_date
+        ) VALUES (
+         	#{ id},
+       		#{ sysName},
+       		#{ sysVersion},
+       		#{ buildDate},
+       		#{ copyRight},
+       		sysdate()
+        )
+    </insert>
+
+    <!-- 更新 -->
+   	<update id="update" parameterType="Version">
+        UPDATE t_sys_version
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="sysName!=null">
+           sys_name=#{ sysName},
+          </if>
+          <if test="sysVersion!=null">
+           sys_version=#{ sysVersion},
+          </if>
+          <if test="buildDate!=null">
+           build_date=#{ buildDate},
+          </if>
+          <if test="copyRight!=null">
+           copy_right=#{ copyRight},
+          </if>
+          <!--<if test="createDate!=null">-->
+           <!--create_date=sysdate(),-->
+          <!--</if>-->
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+   	<update id="updateMap">
+        UPDATE t_sys_version
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="map.sysName!=null">        
+           sys_name=#{ map.sysName},
+          </if>
+          <if test="map.sysVersion!=null">        
+           sys_version=#{ map.sysVersion},
+          </if>
+          <if test="map.buildDate!=null">        
+           build_date=#{ map.buildDate},
+          </if>
+          <if test="map.copyRight!=null">        
+           copy_right=#{ map.copyRight},
+          </if>
+          <if test="map.createDate!=null">        
+           create_date=sysdate(),
+          </if>
+        </trim>
+        WHERE
+       id = #{  map.id }
+	</update>
+
+
+     <insert id="insertMap" >
+        INSERT INTO t_sys_version (
+             	id,
+			 	sys_name,
+			 	sys_version,
+			 	build_date,
+			 	copy_right,
+			 	create_date,
+        ) VALUES (
+              	#{ map.id},
+		    	#{ map.sysName},
+		    	#{ map.sysVersion},
+		    	#{ map.buildDate},
+		    	#{ map.copyRight},
+		    	sysdate(),
+        )
+    </insert>
+
+
+  	<update id="updateNull" parameterType="Version">
+        UPDATE t_sys_version
+        <trim prefix="SET" suffixOverrides=","> 
+			    sys_name=#{ sysName},
+			    sys_version=#{ sysVersion},
+			    build_date=#{ buildDate},
+			    copy_right=#{ copyRight},
+			    create_date=sysdate(),
+        </trim>
+        WHERE
+        id =#{ id}
+    </update>
+
+   	<delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM t_sys_version
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id=#{ id}
+        </trim>
+    </delete>
+
+
+ 	<delete id="deleteByCondition" parameterType="java.util.Map">
+        DELETE FROM  t_sys_version 
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{ map.id}
+            </if>				        
+			<if test="map.sysName!=null">
+				AND sys_name = #{ map.sysName}
+			</if>				
+			<if test="map.sysVersion!=null">
+				AND sys_version = #{ map.sysVersion}
+			</if>				
+			<if test="map.buildDate!=null">
+				AND build_date = #{ map.buildDate}
+			</if>				
+			<if test="map.copyRight!=null">
+				AND copy_right = #{ map.copyRight}
+			</if>				
+			<if test="map.createDate!=null">
+				AND create_date = sysdate()
+			</if>				
+        </trim>
+    </delete>
+
+    <delete id="deleteByProperty" parameterType="java.util.Map">
+        DELETE FROM t_sys_version WHERE
+        ${property}=#{ value}
+    </delete>
+
+    <select id="fetch" parameterType="java.lang.Integer" resultType="Version">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_version
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id =#{ id}
+        </trim>
+    </select>
+
+    <select id="findOne" parameterType="java.util.Map" resultType="Version">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_version WHERE
+        ${property}=#{ value} 
+        LIMIT 0,1
+    </select>
+
+    <select id="findList" parameterType="java.util.Map" resultType="Version">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_version WHERE
+       	${property} =#{ value}
+    </select>
+
+    <select id="findAll" resultType="Version">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_version
+    </select>
+
+    <select id="queryPage" resultType="Version">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_version
+        <include refid="Query_condition" />    
+        <if test="condition.sort != null">
+			order by ${condition.sort}
+		</if>
+        <if test="offset != null">
+            limit ${offset}, ${rows}
+        </if>
+    </select>
+
+    <select id="like" parameterType="java.util.Map" resultType="Version">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_version
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id!=null">
+				AND id like '%#{ id}%'
+			</if>
+			<if test="sysName!=null">
+				AND sys_name Like '%$ {condition.sysName}%'
+			</if>
+			<if test="sysVersion!=null">
+				AND sys_version Like '%$ {condition.sysVersion}%'
+			</if>
+			<if test="buildDate!=null">
+				AND build_date Like '%$ {condition.buildDate}%'
+			</if>
+			<if test="copyRight!=null">
+				AND copy_right Like '%$ {condition.copyRight}%'
+			</if>
+			<if test="createDate!=null">
+				AND create_date Like '%$ {condition.createDate}%'
+			</if>
+        </trim>
+    </select>
+
+
+ 	<select id="queryList" parameterType="java.util.Map" resultType="Version">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_version
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{ map.id}
+            </if>
+			<if test="map.sysName!=null">
+				AND sys_name = #{ map.sysName}
+			</if>
+			<if test="map.sysVersion!=null">
+				AND sys_version = #{ map.sysVersion}
+			</if>
+			<if test="map.buildDate!=null">
+				AND build_date = #{ map.buildDate}
+			</if>
+			<if test="map.copyRight!=null">
+				AND copy_right = #{ map.copyRight}
+			</if>
+			<if test="map.createDate!=null">
+				AND create_date = sysdate()
+			</if>
+        </trim>
+        ORDER BY ${orderBy} ${sortBy}
+    </select>
+
+   	<select id="queryOne" parameterType="java.util.Map" resultType="Version">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sys_version
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{ map.id}
+            </if>
+			<if test="map.sysName!=null">
+				AND sys_name = #{ map.sysName}
+			</if>
+			<if test="map.sysVersion!=null">
+				AND sys_version = #{ map.sysVersion}
+			</if>
+			<if test="map.buildDate!=null">
+				AND build_date = #{ map.buildDate}
+			</if>
+			<if test="map.copyRight!=null">
+				AND copy_right = #{ map.copyRight}
+			</if>
+			<if test="map.createDate!=null">
+				AND create_date = sysdate()
+			</if>
+        </trim>
+        limit 0,1
+    </select>
+
+  	<select id="count" resultType="java.lang.Integer">
+        SELECT count(id) FROM t_sys_version
+        <include refid="Query_condition" />
+    </select>
+
+	<select id="selectMaxId" resultType="java.lang.Integer">
+	    SELECT
+	    MAX(id)
+	    FROM t_sys_version
+	</select>
+
+</mapper>
+
