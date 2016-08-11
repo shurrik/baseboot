@@ -1,6 +1,5 @@
 package ${groupId}.common.utils;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -350,6 +349,7 @@ public class DateUtils {
 		return cal.getTime();
 	}
 
+
 	/**
 	 * 获得当前周的最后一天(按照中国习惯，周一为一周的第一天)
 	 * <p>
@@ -646,16 +646,19 @@ public class DateUtils {
 	 * @return
 	 * @author <p>Innate Solitary 于 2012-3-8 下午12:16:09</p>
 	 */
-	public static Date[] getStartAndEndDateForWeek() {
+	public static Date[] getStartAndEndDateForCurWeek() {
 		Date[] dates = new Date[2];
-		Calendar startCalendar = calendar();
-		setCalendar(startCalendar, null, null, null, 0, 0, 0, 0);
-		startCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-		Calendar endCalendar = calendar();
-		endCalendar.add(endCalendar.get(Calendar.WEEK_OF_MONTH), 1);
-		setCalendar(endCalendar, null, endCalendar.get(Calendar.MONDAY), null, 0, 0, 0, -1);
-		dates[0] = startCalendar.getTime();
-		dates[1] = endCalendar.getTime();
+
+		dates[0] = firstDayOfCurrWeek();
+		dates[1] = lastDayOfCurrWeek();
+		return dates;
+	}
+
+	public static Date[] getStartAndEndDateForLastWeek() {
+		Date[] dates = new Date[2];
+
+		dates[0] = getSpecifiedDayBefore(firstDayOfCurrWeek(),7);
+		dates[1] = getSpecifiedDayBefore(lastDayOfCurrWeek(),7);
 		return dates;
 	}
 
@@ -845,7 +848,7 @@ public class DateUtils {
 			month=0;
 		}
 		Calendar endCal = calendar();
-		setCalendar(endCal, year, month, 1, 0 , 0, 0, 0);
+		setCalendar(endCal, year, month, 1, 0 , 0, -1, 0);
 		dates[0] = startCal.getTime();
 		dates[1] = endCal.getTime();
 		return dates;
@@ -893,7 +896,7 @@ public class DateUtils {
 		Date[] dates = getStartAndEndDateForYearAndMonth(year,month);
 		return dates;
 	}
-//
+	//
 	public static Date[] getStartAndEndDateForLastMonth() {
 		Date date  = firstDayOfLastMonth();
 		Integer year = getYear(date);
@@ -920,14 +923,29 @@ public class DateUtils {
 		return ca.getTime();
 	}
 
+
+	public static String[] Date2DateTimeFormat(Date[] dates)
+	{
+		int length = dates.length;
+		String[] arr = new String[length];
+		for(int i=0;i<length;i++)
+		{
+			arr[i] = formatDatetime(dates[i]);
+		}
+
+		return arr;
+	}
+
 	public static void main(String args[]) throws Exception{
 
-		Date now = DateUtils.now();
-		Date incNow12 = DateUtils.incHour(now,12);
-		Date desNow12 = DateUtils.desHour(now,12);
-		System.out.println(DateUtils.formatDatetime(now));
-		System.out.println(DateUtils.formatDatetime(incNow12));
-		System.out.println(DateUtils.formatDatetime(desNow12));
+		Date[] curWeek = getStartAndEndDateForCurWeek();
+		System.out.println(curWeek[0]);
+		System.out.println(curWeek[1]);
+
+		Date[] lastWeek = getStartAndEndDateForLastWeek();
+		System.out.println(lastWeek[0]);
+		System.out.println(lastWeek[1]);
 
 	}
 }
+
