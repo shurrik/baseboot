@@ -8,4 +8,5 @@
 *.iws
 */target
 ${artifactId}-web/logger-samples/
+codegen/output/
 logger-samples/
