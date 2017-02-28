@@ -20,14 +20,14 @@ public interface IBaseDAO<T extends BaseDomain> {
 	 public ArrayList<T> queryall();
 	
     /**
-     * 保存单一对象，如果要保存多个对象集合，请参看{@link #insertList(java.util.List)}
+     * 保存单一对象，如果要保存多个对象集合，请参看{insertList(java.util.List)}
      *
      * @param entity
      */
     public void insert(T entity);
 
     /**
-     * 更新对象,如果属性为空，则不会进行对应的属性值更新,如果有属性要更新为null，请参看{@link #updateNull(T)}
+     * 更新对象,如果属性为空，则不会进行对应的属性值更新,如果有属性要更新为null，请参看{updateNull(T)}
      *
      * @param entity
      *            要更新的实体对象
@@ -39,7 +39,7 @@ public interface IBaseDAO<T extends BaseDomain> {
     public void insertMap(@Param("map") Map<String, Object> entityMap);
 
     /**
-     * 更新对象,如果属性为空，会进行对应的属性值更新,如果有属性不想更新为null，请参看{@link #update(T)}
+     * 更新对象,如果属性为空，会进行对应的属性值更新,如果有属性不想更新为null，请参看{update(T)}
      *
      * @param entity
      */
@@ -82,7 +82,7 @@ public interface IBaseDAO<T extends BaseDomain> {
      *            进行对象匹配的属性
      * @param value
      *            进行对象匹配的属性值
-     * @return 返回泛型参数类型对象，如何取到泛型类型参数，请参看{@link #getEntityClass()}
+     * @return 返回泛型参数类型对象，如何取到泛型类型参数，请参看{getEntityClass()}
      */
     public T findOne(@Param("property") String property, @Param("value") Object value);
 
@@ -91,7 +91,7 @@ public interface IBaseDAO<T extends BaseDomain> {
      * @param value 
      * @param property 
      *
-     * @return 返回泛型参数类型的对象集合，如何取到泛型类型参数，请参看{@link #getEntityClass()}
+     * @return 返回泛型参数类型的对象集合，如何取到泛型类型参数，请参看{getEntityClass()}
      */
     public List<T> findList(@Param("property")String property, @Param("value")Object value);
     public List<T> findList1();
@@ -99,7 +99,7 @@ public interface IBaseDAO<T extends BaseDomain> {
     /**
      * 根据传入的泛型参数类型查询该类型对应表中的所有数据，返回一个集合对象
      *
-     * @return 返回泛型参数类型的对象集合，如何取到泛型类型参数，请参看{@link #getEntityClass()}
+     * @return 返回泛型参数类型的对象集合，如何取到泛型类型参数，请参看{getEntityClass()}
      */
     public List<T> findAll();
 
@@ -133,7 +133,7 @@ public interface IBaseDAO<T extends BaseDomain> {
      * @param orderBy 
      * @param condition 
      *
-     * @return 返回泛型参数类型的对象集合，如何取到泛型类型参数，请参看{@link #getEntityClass()}
+     * @return 返回泛型参数类型的对象集合，如何取到泛型类型参数，请参看{getEntityClass()}
      */
     public List<T> queryList(@Param("map") Map condition, @Param("orderBy") String orderBy, @Param("sortBy") String sortBy);
 
@@ -142,7 +142,7 @@ public interface IBaseDAO<T extends BaseDomain> {
      *
      * @param condition
      *            进行查询的条件集合
-     * @return 返回泛型参数类型的对象，如何取到泛型类型参数，请参看{@link #getEntityClass()}，
+     * @return 返回泛型参数类型的对象，如何取到泛型类型参数，请参看{getEntityClass()}，
      */
     public T queryOne(@Param("map")Map<String, Object> condition);
 
@@ -196,7 +196,7 @@ public interface IBaseDAO<T extends BaseDomain> {
      *
      * @param mapperId
      * @param obj
-     * @return 返回泛型类型对象集合，如果要返回单个结果对象，请参看{@link #selectOne(String, Object)}
+     * @return 返回泛型类型对象集合，如果要返回单个结果对象，请参看{selectOne(String, Object)}
      */
     public List<T> selectList(String mapperId, Object obj);
 

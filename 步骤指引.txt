@@ -1,0 +1,26 @@
+目标
+1.五分钟内建立一个demo web工程，包括登录，权限管理（人员、角色、菜单）、
+操作日志功能模块
+
+步骤
+1.编译(前提PC要安装好JDK7和MAVEN3.3)
+cd D:\baseboot\baseboot
+mvn clean install
+2.创建新工程,工程名为demo
+mvn archetype:generate -B -U -DarchetypeGroupId=com.shurrik -DarchetypeArtifactId=baseboot -DarchetypeRepository=local -DarchetypeVersion=1.0-SNAPSHOT -DgroupId=com.shurrik -DartifactId=demo -Dversion=0.0.1-SNAPSHOT -Dpackage=com.shurrik -Dproject_name=demo -Dcorp=shurrik -DinteractiveMode=false -X -DarchetypeCatalog=local  
+3.初始化数据库(mysql) 
+initDB.bat
+4.启动项目工程
+startup.bat  
+默认系统管理员账户 admin/admin!@#
+5.设计新模块字段
+\codegen\entity.json
+6.模块代码生成
+codegen.bat
+7.表结构及菜单SQL导入
+importsql.bat
+8.代码移入到工程
+move.bat
+9.重启项目
+startup.bat
+10.进入系统添加菜单和角色
