@@ -1,0 +1,2 @@
+如果本地install baseboot有问题
+需要将archetype-catalog.xml文件复制到.m2\repository\org\apache\maven\archetype\archetype-catalog\3.0.0里
