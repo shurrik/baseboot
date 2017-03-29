@@ -1,2 +1,3 @@
-如果本地install baseboot有问题
+1.如果本地install baseboot有问题
 需要将archetype-catalog.xml文件复制到.m2\repository\org\apache\maven\archetype\archetype-catalog\3.0.0里
+2.目前baseboot只支持mysql，而且mysql服务器的root密码必须是root
