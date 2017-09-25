@@ -327,7 +327,11 @@
 				<system.wwwroot>http://localhost:8080</system.wwwroot>
 				<jdbc.url>jdbc:mysql://localhost:3306/${artifactId}?characterEncoding=UTF-8<![CDATA[&amp;]]>autoReconnect=true</jdbc.url>
 				<jdbc.username>root</jdbc.username>
-				<jdbc.password>bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==</jdbc.password>
+				<jdbc.password>root</jdbc.password>
+
+				<!--
+                                <jdbc.password>bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==</jdbc.password>
+                -->
 			</properties>
 		</profile>
 	</profiles>

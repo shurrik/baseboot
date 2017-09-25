@@ -55,8 +55,8 @@
         <!--配置druid加密，用密文代替明文，密文配置在pom.xml的配置数据库处-->
        <!-- cmd生产密文命令：java -cp druid-1.0.7.jar com.alibaba.druid.filter.config.ConfigTools you_password（数据库密码）
          注意：该命令在cmd中要切换到jar包所在位置执行-->
-        <property name="filters" value="config" />
-        <property name="connectionProperties" value="config.decrypt=true" />
+<!--        <property name="filters" value="config" />
+        <property name="connectionProperties" value="config.decrypt=true" />-->
     </bean>	
 
     <bean id="SessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
