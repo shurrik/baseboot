@@ -244,6 +244,11 @@
                     + '<button type="button" class="btn-orange cancel" data-icon="undo">#cancel#</button>'
                     + '<button type="button" class="btn-orange delete" data-icon="remove">#del#</button>'
         ,
+        gridUpdateBtn : '<button type="button" class="btn-green edit" data-icon="edit">#edit#</button>'
+        + '<button type="button" class="btn-green update" data-icon="edit">#update#</button>'
+        + '<button type="button" class="btn-green save" data-icon="check">#save#</button>'
+        + '<button type="button" class="btn-orange cancel" data-icon="undo">#cancel#</button>'
+        ,
         gridDialogEditBtns: '<ul>'
                           + '    <li class="pull-left"><button type="button" class="btn btn-orange prev" data-icon="arrow-up">#prev#</button></li>'
                           + '    <li class="pull-left"><button type="button" class="btn btn-orange next" data-icon="arrow-down">#next#</button></li>'

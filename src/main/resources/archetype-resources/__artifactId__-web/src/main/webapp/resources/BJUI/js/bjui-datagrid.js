@@ -80,6 +80,7 @@
         showLinenumber  : true,     // Display linenumber column, Optional 'true' | 'false' | 'lock', (Optional 'true, false' is a boolean)
         showCheckboxcol : false,    // Display checkbox column, Optional 'true' | 'false' | 'lock', (Optional 'true, false' is a boolean)
         showEditbtnscol : false,    // Display edit buttons column
+        showUpdatebtnscol : false,    // Display update buttons column
         showTfoot       : false,    // Display the tfoot, Optional 'true' | 'false' | 'lock', (Optional 'true, false' is a boolean)
         showToolbar     : false,    // Display datagrid toolbar
         toolbarItem     : '',       // Displayed on the toolbar elements, Optional 'all, add, edit, cancel, save, del, import, export, |'
@@ -357,8 +358,8 @@
             },
             // create tbody - tr
             createTrs: function(datas, refreshFlag) {
-                var tools = this, model = that.columnModel, paging = that.paging, editFrag = BJUI.doRegional(FRAG.gridEditBtn, that.regional), lockedCols = []
-                
+                var tools = this, model = that.columnModel, paging = that.paging, updateFrag = BJUI.doRegional(FRAG.gridUpdateBtn, that.regional),editFrag = BJUI.doRegional(FRAG.gridEditBtn, that.regional), lockedCols = []
+
                 if (refreshFlag) {
                     // remebered lock columns
                     $.each(model, function(i, n) {
@@ -388,6 +389,11 @@
                         if (n.gridCheckbox) label = '<div><input type="checkbox" data-toggle="icheck" name="datagrid.checkbox" value="true"></div>'
                         if (n.gridEdit) {
                             label = editFrag
+                            cls   = ' class="'+ that.classnames.s_edit +'"'
+
+                        }
+                        if (n.gridUpdate) {
+                            label = updateFrag
                             cls   = ' class="'+ that.classnames.s_edit +'"'
                         }
                         
@@ -524,6 +530,7 @@
                 that.linenumberColumn = {name:'gridNumber', gridNumber:true, width:30, minWidth:30, label:'No.', align:'center', menu:false, edit:false, quicksort:false}
                 that.checkboxColumn   = {name:'gridCheckbox', gridCheckbox:true, width:40, minWidth:40, label:'Checkbox', align:'center', menu:false, edit:false, quicksort:false}
                 that.editBtnsColumn   = {name:'gridEdit', gridEdit:true, width:110, minWidth:110, label:'Edit', align:'center', menu:false, edit:false, hide:false, quicksort:false}
+                that.updateBtnsColumn   = {name:'gridUpdate', gridUpdate:true, width:110, minWidth:110, label:'Edit', align:'center', menu:false, edit:false, hide:false, quicksort:false}
             },
             // create Thead
             createThead: function() {
@@ -540,7 +547,7 @@
                     if (options.showLinenumber == 'lock') that.linenumberColumn.initLock = true
                 }
                 if (options.showEditbtnscol) columns.push(that.editBtnsColumn)
-                
+                if (options.showUpdatebtnscol) columns.push(that.updateBtnsColumn)
                 rowArr = tools.columns2Arr(columns, rowArr)
                 // the last model can't lock
                 that.columnModel[that.columnModel.length - (options.showEditbtnscol ? 2 : 1)].lock = false
@@ -1245,7 +1252,6 @@
         
         if (!that.isDom) {
             that.tools.appendColumns()
-            
             var $th, _rowspan = trLen > 1 ? ' rowspan="'+ trLen +'"' : ''
             
             if (options.showCheckboxcol) {
@@ -1509,7 +1515,7 @@
         }
         if (options.showToolbar) {
             if (options.toolbarItem || options.toolbarCustom) {
-                that.$toolbar = $('<div class="datagrid-toolbar"></div')
+                that.$toolbar = $('<div class="datagrid-toolbar"></div>')
                 if (options.toolbarItem) {
                     hastoolbaritem = true
                     if (options.toolbarItem.indexOf('all') >= 0) options.toolbarItem = 'add, edit, cancel, save, |, del, |, refresh, |, import, export'
@@ -3667,10 +3673,11 @@
                             if (typeof data[key] != 'undefined') {
                                 changeData[key] = args[key]
                             }
-                            if (op.name == key) {
-                                if ($el.val() == args[key]) $td.removeClass(that.classnames.td_changed)
-                                else $el.val(args[key])
-                            }
+                            $tr.find("[name='"+key+"']").val(args[key]); //update by lp 2016-08-23
+                            //if (op.name == key) {
+                            //    if ($el.val() == args[key]) $td.removeClass(that.classnames.td_changed)
+                            //    else $el.val(args[key])
+                            //}
                         }
                     })
                     
@@ -3904,7 +3911,9 @@
                         }
                     }
                     // Do ajax
-                    $tr.bjuiajax('doAjax', {url:options.editUrl, data:{json:JSON.stringify(postData.push(tempData) && postData)}, type:'POST', callback:callback})
+                    //$tr.bjuiajax('doAjax', {url:options.editUrl, data:{json:JSON.stringify(postData.push(tempData) && postData)}, type:'POST', callback:callback})
+                    $tr.bjuiajax('doAjax', {url:options.editUrl, data:tempData, type:'POST', callback:callback})
+
                 }
             })
         }
